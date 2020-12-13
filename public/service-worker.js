@@ -4,10 +4,9 @@ const CACHE_NAME = APP_PREFIX + VERSION;
 
 const FILES_TO_CACHE = [
     "./index.html",
-    "./public/js/add-budget.js",
-    "./public/js/idb.js",
-    "./public/css/styles.css",
-    "./models/transaction.js",
+    "./js/idb.js",
+    "./css/styles.css",
+    "./manifest.json",
     "./icons/icon-72x72",
     "./icons/icon-96x96",
     "./icons/icon-128x128",
@@ -15,7 +14,7 @@ const FILES_TO_CACHE = [
     "./icons/icon-152x152",
     "./icons/icon-192x192",
     "./icons/icon-384x384",
-    "./icons/icon-512x512",
+    "./icons/icon-512x512"
 ]
 
 self.addEventListener('install', function (e) {

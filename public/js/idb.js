@@ -2,7 +2,7 @@
 let db;
 
 // establish connection to IndexedDB database called 'budget_tracker' and set it to version 1
-const request = indexedDB.open('budget_tracker', 1);
+const request = indexedDB.open('budget', 1);
 
 // add event listeners
 // this event will emit if the datase version changes (nonexistant to version 1, v1 to v2, etc.)
@@ -20,7 +20,7 @@ request.onsuccess = function(event) {
 
     // check if app is online, if run uploadBudget() function send all local db data to api
     if (navigator.onLine) {
-        
+        checkDatabase();
     }
 };
 
@@ -40,3 +40,38 @@ function saveRecord(record) {
     // add record to your store with add method
     budgetObjectStore.add(record);
 }
+
+function checkDatabase() {
+    const transaction = db.transaction(['new_budget'], 'readwrite');
+
+    // access the object store for `new_budget`
+    const budgetObjectStore = transaction.objectStore('new_budget');
+
+    const getAll = budgetObjectStore.getAll();
+
+    getAll.onsuccess = function() {
+        if (getAll.result.length > 0) {
+            fetch("/api/transaction/bulk", {
+                method: "POST", 
+                body: JSON.stringify(getAll.result),
+                headers: {
+                    Accept: "application/json, text/plain, */*",
+                    "Content-Type": "application/json"
+                  }
+            })
+            .then((response) => {
+                return response.json()
+            })
+            .then(() => {
+                const transaction = db.transaction(['new_budget'], 'readwrite');
+
+                // access the object store for `new_budget`
+                const budgetObjectStore = transaction.objectStore('new_budget');
+
+                budgetObjectStore.clear();
+            })
+        }
+    }
+}
+
+window.addEventListener("online", checkDatabase);

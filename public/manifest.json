@@ -2,9 +2,6 @@
 {
     "name": "Budget Tracker",
     "short_name": "Budget",
-    "description": "An app that allows you to track spending and expenses, without requiring wifi.",
-    "background_color": "#ffffff",
-    "theme_color": "#345D23",
     "icons": [
         {
             "src": "/public/icons/icon-72x72.png",
@@ -46,5 +43,9 @@
             "type": "image/png",
             "sizes": "512x512"
         }
-    ]
+    ],
+    "description": "An app that allows you to track spending and expenses, without requiring wifi.",
+    "background_color": "#ffffff",
+    "theme_color": "#345D23",
+    "display": "standalone"
 }
